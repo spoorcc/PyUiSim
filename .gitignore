@@ -1,0 +1,4 @@
+venv
+images/*.png
+images/output/*
+.vscode/settings.json
