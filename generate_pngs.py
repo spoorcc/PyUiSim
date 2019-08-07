@@ -7,7 +7,7 @@ from copy import deepcopy
 from svg import Parser, Rasterizer, SVG
 from PIL import Image, ImageTk
 import xml.etree.ElementTree as ET
-import tkinter as tk
+
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
@@ -72,28 +72,6 @@ def render_png_for_each_svg_element(root, format_string):
             elt.set('display','none')
             counter += 1
 
-
-def create_window(size, img_dir):
-    window = tk.Tk()
-    window.geometry('{}x{}'.format(size[0], size[1]))
-    
-    window.title("Welcome to PyUiSim")
-
-    images = []
-    for image in os.listdir(img_dir):
-        logging.info('Adding %s', image)
-        images.append(Image.open(os.path.join(img_dir, image)).convert("RGBA"))
-
-    base = deepcopy(images[0])
-    for img in images[1:]:
-        base.paste(img, (0,0), img)
-    photo=ImageTk.PhotoImage(base)
-    label = tk.Label(window, image=photo)
-    label.image = photo # keep a reference!
-    label.pack(fill=tk.BOTH, expand=tk.YES)
-
-    window.mainloop()
-
 OUTDIR = 'images/output'
 
 try:
@@ -102,6 +80,3 @@ try:
     render_png_for_each_svg_element(svg, os.path.join(OUTDIR, 'bcd_digit{}'))
 except FileExistsError:
     pass
-
-# TODO: Create interactive program
-create_window((800, 600), OUTDIR)
